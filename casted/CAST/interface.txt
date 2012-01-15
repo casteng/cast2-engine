@@ -1,0 +1,86 @@
+Описание интерфеса объектов
+
+  TItem = class                         // Базовый класс для всех объектов игрового мира
+    ...
+    Name: TShortName;                   // Имя объекта
+    Scale: TVector3s;                   // Масштаб
+    Location: TVector3s;                // Позиция (координаты)
+    Orientation: TVector3s;             // Ориентация (поворот)
+    LVelocity, AVelocity: TVector3s;    // Линейная и угловая скорости (пока нигде не использовались)
+
+    BoundingVolumes: TBoundingVolumes;  // Ограничивающие объемы
+    BoundingBox, FullBoundingBox: TBoundingBox; // Ограничивающие коробка объекта и объекта со всеми дочерними объектами
+    Controls: array[0..3] of TVector3s; // Точки, где считается столкновение с ландшафтом (в текущей физике)
+
+    World: TWorld;                      // Мир
+    Parent: TItem;                      // Родительский объект
+    Childs: array of TItem; TotalChilds: Integer;   // Дочерние объекты
+
+    ModelMatrix: TMatrix4s;             // Матрица преобразований. Используется при визуализации. Строится при вызове SetLocation и SetScale
+
+    ...
+    constructor Create(AName: TShortName; AWorld: TWorld; AParent: TItem = nil); virtual;           // Создает экземпляр объекта
+    procedure SetMaterial(const PassNumber: Integer; const AName: TShortName); overload; virtual;   // Устанавливает материал для визуализации
+    procedure SetMaterial(const PassNumber: Integer; const AMaterial: TMaterial); overload; virtual;
+
+    function Clone: TItem; virtual;     // Создает копию объекта
+    function Save(Stream: TDStream): Integer; virtual;     // Сохраняет объект в поток
+    function Load(Stream: TDStream): Integer; virtual;     // Восстанавливает объект из потока
+
+    function SetChild(Index: Integer; AItem: TItem): TItem; virtual;     // Устанавливает дочерний объект
+    function AddChild(AItem: TItem): TItem; overload; virtual;           // Добавляет дочерний объект
+
+    procedure Render(Renderer: TRenderer); virtual;        // Визуализирует объект
+    function Process: Boolean; virtual;                    // Пересчитывает состояние объекта (физика, ИИ и т.п.)
+
+    procedure SetScale(AScale: TVector3s); virtual;        // Устанавливает масштабирование объекта. Пересчитывает ModelMatrix
+    procedure SetLocation(ALocation, AOrientation: TVector3s); virtual;   // Устанавливает позицию и ориентацию объекта. Пересчитывает ModelMatrix
+
+    destructor Free; virtual;                              // Уничтожает объект
+  end;
+
+  TActor = class(TItem)                                    // Подкласс для моделей с заранее созданной геометрией (.obj)
+    ...
+  end;
+
+  TWorld = class
+    ...
+{$IFDEF Logging}                              // Журнал
+    Log: TLogSession;
+{$ENDIF}
+    ClientTimeQuantum: Cardinal;              // Квант времени для обсчета состояния мира
+
+    GlobalForce: TVector3s;                   // Глобальная суммарная сила, действующая на все объекты
+    Landscape: TLandscape;                    // Ландшафт
+    Items: array of TItem; TotalItems: Integer;    // Объекты
+
+    ItemClasses: array of CItem; TotalItemClasses: Integer;      // Классы объектов
+
+    ...
+    constructor Create(ResStream: TDStream; NewIClasses: array of CItem; NewRClasses: array of CResource{$IFDEF Logging} ; ALog: TLogSession {$ENDIF}); virtual;
+
+    function AddItem(const AItem: TItem): TItem; virtual;        // Добавляет объект в мир
+    procedure DeleteItem(const ID: Integer); virtual;            // Удаляет объект
+    procedure DoForEachItem(Routine: TItemRoutine); virtual;     // Вызывает заданную процедуру для каждого объекта, включая дочерние
+    function SaveAllActors(Stream: TDStream): Integer; virtual;  // Сохраняет сцену в поток
+    function LoadAllActors(Stream: TDStream): Integer; virtual;  // Восстанавливает сцену из потока
+
+    procedure ProcessItems; virtual;          // Процессинг всех объектов
+    procedure Process; virtual;               // Визуализация и процессинг
+
+    destructor Free; virtual;
+
+    property Renderer: TRenderer read FRenderer write SetRenderer;   // Класс-визуализатор
+  end;
+
+  TLandscape = class(TItem)                   // Объект, соответствующий ландшафту
+    HeightMap: THCNMap;                       // Ссылка на объект карты высот
+    procedure Init(AHeightMap: THCNMap); virtual;    // Инициализация заданной картой высот
+  end;
+
+  THCNMap = class(TMap)                       // Подкласс карты высот
+    ...
+    ...
+    function GetHeight(X, Z: Single): Integer; override;    // Возвращает высоту ландшафта в заданной точке
+    function GetNormal(Xi,Zi : Integer): TSMIntVector3; override;    // Вычисляет нормаль в заданном узле карты
+  end;

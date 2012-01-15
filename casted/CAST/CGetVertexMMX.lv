@@ -1,0 +1,414 @@
+  asm
+//       U pipe                               V pipe
+    push         ESI;                         push         EDI
+    push         EBX;                         mov          ECX, TilePower
+
+    mov          EAX, CurX;                   mov          EBX, CurZ
+    sar          EAX, 8;                      sar          EBX, 8
+    mov          NXI, EAX;                    mov          NZI, EBX
+
+    mov          ESI, EAX;                    mov          EDI, EBX
+    sar          ESI, CL;                     sar          EDI, CL
+    and          ESI, MapWidthMask;           and          EDI, MapHeightMask     //  ESI/EDI - X/Z Index
+    mov          XI, ESI;                     mov          ZI, EDI
+    sar          EAX, 1;                      sar          EBX, 1
+    and          EAX, 127;                    and          EBX, 127
+    mov          XO, EAX;                     mov          ZO, EBX
+
+    mov          ECX, MapPower;               pxor         MM0, MM0
+
+{    mov          EAX, ESI;                    mov          EBX, EAX
+    inc          EAX;                         shl          EBX, CL                // EBX - XI*MapWidth*2
+    and          EAX, MapWidthMask;           mov          EDX, EDI
+    shl          EBX, 3
+    shl          EAX, CL;                     mov          XI_ZI, EBX
+    add          EAX, EDX;
+    shl          EDX, 3
+    add          XI_ZI, EDX
+    sar          EDX, 3
+    inc          EDX;                         shl          EAX, 3
+    mov          NXI_ZI, EAX;                 and          EDX, MapHeightMask;
+    shl          EDX, 3
+    add          EBX, EDX                     pxor         MM0, MM0
+    mov          XI_NZI, EBX;                 //shl          XI_ZI, 3}
+
+    
+    shl          EDI, CL;                     shl          ESI, 3           //optimize
+    mov          EAX, EDI;                    mov          EBX, ESI
+    add          EAX, ESI;                    add          EBX, 8
+    mov          XI_ZI, EAX;                  and          EBX, MapXSizeMask
+
+    add          EBX, EDI;                    add          EAX, 8*1024
+    mov          NXI_ZI, EBX;                 and          EAX, MapZSizeMask
+    mov          XI_NZI, EAX;
+
+//    if (XO + ZO) <= TileSize then begin
+    mov          EAX, 128
+    sub          EAX, XO
+    cmp          EAX, ZO
+    ja           @VertexSet1                    //optimize
+
+    mov          EDX, EDI;                    mov          EBX, 128
+    add          ESI, 8;                      sub          EBX, ZO
+    and          ESI, MapXSizeMask;           add          EDX, 8*1024
+    and          EDX, MapZSizeMask            add          ESI, EDX;
+    mov          XI_ZI, ESI                   mov          XO, EBX;
+    mov          ZO, EAX                      jmp          @VertexSet2
+
+@VertexSet1:
+    mov          ESI, XI_ZI
+@VertexSet2:
+//    VertexBuf^[ j*(XAcc+1) + i].Y:= (HeightMap[xi,zi] shl TilePower + (HeightMap[nxi,zi] - HeightMap[xi,zi]) * XO + (HeightMap[xi,nzi] - HeightMap[xi,zi]) * ZO) shr TilePower;
+//    mov          ESI, XI_ZI;
+    mov          EDI, NXI_ZI;                 movd         MM4, XO
+    mov          EDX, MapOffset               movd         MM5, ZO
+
+    movzx        ECX, word ptr EDX[ESI + OffsH]                                  // ECX = Map[XI_ZI].Y
+    movzx        EAX, word ptr EDX[EDI + OffsH];                                 // EAX = Map[NXI_ZI].Y
+
+    mov          EBX, XI_NZI
+    sub          EAX, ECX
+    shl          EAX, 16;
+
+    mov          AX, word ptr EDX[EBX + OffsH];
+
+    sub          AX, CX;                      movq         MM2, MM4
+    movd         MM1, EAX;                    psllq        MM2, 16
+    movq         MM3, MM5;                    punpcklwd    MM5, MM5
+    por          MM2, MM3;                    punpcklwd    MM4, MM4
+    pmaddwd      MM1, MM2;                    punpckldq    MM4, MM4
+    movd         EAX, MM1
+    sar          EAX, 7;                      punpckldq    MM5, MM5
+
+    add          EAX, ECX
+
+{    movzx        EBX, word ptr HeightMap[ESI];movzx        EAX, word ptr HeightMap[EDI]
+    mov          EDI, XI_NZI;                 sub          EAX, EBX
+    imul         XO
+
+    shl          ESI, 1;                                                 // ESI*2 - pointer in normals
+
+    mov          ECX, EAX;                                               // ECX = (HM[nxi,zi] - HM[xi,zi])*XO
+
+    movsx        EAX, word ptr HeightMap[EDI]
+    sub          EAX, EBX
+    imul         ZO                                                      // EAX = (HM[xi,nzi] - HM[xi,zi])*ZO
+
+    add          EAX, ECX
+
+    sar          EAX, 7
+
+    add          EAX, EBX}
+//    shl          EDI, 1
+    mov          ResY, EAX
+
+    movd         MM7, dword ptr EDX[ESI+OffsNZ];   movd         MM6, dword ptr EDX[EDI+OffsNZ]
+    punpcklbw    MM7, MM0;                    punpcklbw    MM6, MM0
+    psllw        MM7, 8;                      psllw        MM6, 8;
+    psraw        MM7, 8;                      psraw        MM6, 8;
+
+
+    movd         MM3, dword ptr EDX[ESI+OffsB];   movd         MM1, dword ptr EDX[EDI+OffsB]
+// MM7 - N[XI,ZI](0, NX, NY, NZ)
+    mov          ESI, XI_NZI;                 punpcklbw    MM3, MM0
+    punpcklbw    MM1, MM0;
+    psubw        MM1, MM3;                    psubw        MM6, MM7
+    pmullw       MM1, MM4;                    pmullw       MM6, MM4
+
+    movd         MM4, dword ptr EDX[ESI+OffsNZ];   movd         MM2, dword ptr EDX[ESI+OffsB]
+    punpcklbw    MM4, MM0;                    punpcklbw    MM2, MM0
+    psllw        MM4, 8;
+    psraw        MM4, 8
+
+// MM4 - N[XI,NZI](0, NX, NY, NZ)
+
+    psubw        MM4, MM7;                    psubw        MM2, MM3
+    pmullw       MM4, MM5;                    pmullw       MM2, MM5
+
+    paddw        MM6, MM4;                    paddw        MM1, MM2
+    psraw        MM6, 7;                      psraw        MM1, 7
+    paddw        MM6, MM7;
+
+    paddw        MM1, MM3;                    movq         MM2, MM6
+//    packuswb     MM1, MM0;                    packsswb     MM6, MM0
+
+{    movd         EAX, MM1;                    movd         ECX, MM6
+    movzx        EBX, AL;                     movsx        EDX, CL
+    mov          CB, EBX;                     mov          NZ, EDX
+    mov          BL, AH;                      movsx        EDX, CH
+    mov          CG, EBX;                     mov          NY, EDX
+    shr          EAX, 16;                     shr          ECX, 16
+    mov          BL, AL;                      movsx        EDX, CL
+    mov          CR, EBX;                     mov          NX, EDX}
+
+//    movq         MM6, MM2
+//    punpcklbw    MM1, MM0
+
+    pop     EBX
+    pop     EDI
+    pop     ESI
+
+    mov     AX, RenderPars.Ambient
+    mov     dword ptr Lightness, 0
+    shl     EAX, 20
+    mov     dword ptr Lightness.R, EAX
+  end;
+  if LightCount > 0 then for l:=0 to LightCount-1 do with TLightsArray(Lights^)[l] do case LightType of
+    ltDirectional:
+    asm
+//       U pipe                               V pipe
+      push       ESI;
+      push       EDI;                         mov        ESI, l
+      push       EBX;                         shl        ESI, 5
+
+      movq       MM2, MM6;                    add        ESI, LightsOffset
+
+      // MM2 = (0, NX, NY, NZ);
+      pmaddwd    MM2, qword ptr TLight([ESI]).Location
+      movq       MM5, MM2
+      psrlq      MM2, 32
+      paddd      MM2, MM5                               // DotP := -(NX*Direction.X + NY*Direction.Y + NZ*Direction.Z);
+      psrad      MM2, 8
+      movd       EAX, MM2
+      cmp        EAX, 0
+      jnl        @@ShadowFace
+
+
+      punpcklwd  MM2, MM2
+      movq       MM7, Lightness
+      punpckldq  MM2, MM2
+//      movq       MM4, MM2
+      pmullw     MM2, qword ptr TLight([ESI]).B        // Lightness.R := Lightness.R + R*DotP shr 8;
+      psubw      MM7, MM2
+      movq       Lightness, MM7
+
+@@ShadowFace:
+      pop        EBX
+      pop        EDI
+      pop        ESI
+    end;
+{    begin
+      DotP := -(NX*Direction.X + NY*Direction.Y + NZ*Direction.Z) div 256;
+      if DotP>0 then begin
+        Lightness.R := Lightness.R + R*DotP;
+        Lightness.G := Lightness.G + G*DotP;
+        Lightness.B := Lightness.B + B*DotP;
+        Lightness.Total := Lightness.Total+DotP;
+      end;
+    end;}
+   ltOmniDynamic: asm
+//       U pipe                               V pipe
+      push    EDI;                        push    ESI
+
+      mov     EDI, l;                     push    EBX
+
+      shl     EDI, 5;                     mov     ESI, ResY
+
+      add     EDI, LightsOffset
+
+      mov     EBX, CurX;                  mov     ECX, CurZ
+      sar     EBX, 8
+      sar     ECX, 8
+
+      sub     EBX, dword ptr TLight([EDI]).Location.X;
+                                          sub     ESI, dword ptr TLight([EDI]).Location.Y
+      sub     ECX, dword ptr TLight([EDI]).Location.Z;
+                                          movzx   EDI, word ptr TLight([EDI]).Range
+      mov     EAX, EBX;                   mov     EDX, EBX
+      sar     EDX, 31
+      xor     EAX, EDX
+      sub     EAX, EDX    // abs(LVX)
+      cmp     EAX, EDI
+      ja      @NextLightSource
+
+      mov     EAX, ECX                    mov     EDX, ECX
+      sar     EDX, 31
+      xor     EAX, EDX
+      sub     EAX, EDX    // abs(LVZ)
+      cmp     EAX, EDI
+      ja      @NextLightSource
+
+      shl     EBX, 16
+
+      mov     BX, SI
+      movd    MM0, EBX
+      psllq   MM0, 16
+      and     ECX, 65535
+      movd    MM2, ECX
+      por     MM0, MM2                               // MM0 = (0, LVX, LVY, LVZ)
+
+      movq    MM2, MM6
+      pmulhw  MM2, MM0
+      movq    MM3, MM6                    // MM2 = Hi(0, NX*LVX, NY*LVY, NZ*LVZ)
+      pmullw  MM3, MM0                    // MM3 = Lo(0, NX*LVX, NY*LVY, NZ*LVZ)
+
+      movd    EDX, MM2      // Optimize
+      movd    EAX, MM3
+
+      mov     ECX, EDX
+      shl     ECX, 16
+      mov     CX, AX
+
+      sar     EDX, 16;          sar     EAX, 16
+
+      mov     EBX, EDX
+      shl     EBX, 16
+      mov     BX, AX
+      add     ECX, EBX
+
+      psrlq   MM2, 32
+      psrlq   MM3, 32
+      movd    EDX, MM2
+      movd    EAX, MM3
+
+      mov     EBX, EDX
+      shl     EBX, 16
+      mov     BX, AX
+      add     ECX, EBX                       // MM2, MM3 - Empty
+      neg     ECX                            // ECX = -(NX*LVX+NY*LVY+NZ*LVZ)
+
+      cmp     ECX, 0
+      jng     @NextLightSource
+
+      movq    MM2, MM0
+      pmulhw  MM0, MM0
+      pmullw  MM2, MM2                 // MM0, MM2 = (LVX*LVX, LVY*LVY, LVZ*LVZ)
+
+      movd    EDX, MM0
+      movd    EAX, MM2
+
+      mov     ESI, EDX
+      shl     ESI, 16
+      mov     SI, AX
+
+      sar     EDX, 16
+      sar     EAX, 16
+
+      mov     EBX, EDX
+      shl     EBX, 16
+      mov     BX, AX
+      add     ESI, EBX
+
+      psrlq   MM0, 32
+      psrlq   MM2, 32
+      movd    EDX, MM0
+      movd    EAX, MM2
+
+      mov     EBX, EDX
+      shl     EBX, 16
+      mov     BX, AX
+      add     ESI, EBX                       // ESI = LV dot LV
+
+      cmp     ESI, 0
+      jna     @NextLightSource
+      mov     EDI, l
+      shl     EDI, 5
+      add     EDI, LightsOffset
+      cmp     ESI, word ptr TLight([EDI]).RangeSQ
+      ja      @NextLightSource
+
+      xor     EDX, EDX
+      mov     EAX, ECX
+      shld    EDX, EAX, 14
+      shl     EAX, 14
+      div     ESI                            // EAX - Cos
+
+{      cmp     EAX, 513
+      jna     @@AXOK
+      mov     EAX, 513
+@@AXOK:}
+      movd       MM2, EAX
+
+{      movd       MM2, EDX
+      movd       MM4, EAX
+      psllq      MM2, 32
+      por        MM2, MM4 }
+
+      packssdw   MM2, MM2
+      punpcklwd  MM2, MM2
+      punpckldq  MM2, MM2
+      movq       MM4, MM2
+      pmullw     MM4, qword ptr TLight([EDI]).B     //  MM4 Lo(DotP * RGB) ( 0, 0, DP*R)
+      pmulhw     MM2, qword ptr TLight([EDI]).B     //  MM2 Hi(DotP * RGB) ( 0, 0, 0, DP*R, 0, DP*G, 0, DP*B)
+      psrlw      MM4, 8                             //  MM4 Lo(0,          DotP * RGB)
+      packsswb   MM2, MM2
+      punpcklbw  MM2, MM2
+//      psllw      MM2, 8                             //  MM2 Hi(DotP * RGB, 0)
+      movq       MM7, Lightness
+      paddusw    MM7, MM2
+      paddusw    MM7, MM4
+      movq       Lightness, MM7
+
+@NextLightSource:
+
+      pop     EBX
+      pop     ESI
+      pop     EDI
+    end;
+{    ltOmniDynamic: begin
+      LVX := CurX div 256 - Location.X; if abs(LVX) > Range then Continue;
+      LVZ := CurZ div 256 - Location.Z; if abs(LVZ) > Range then Continue;
+      LVY := ResY - Location.Y; if abs(LVY) > Range then Continue;
+      DotP := -(NX*LVX+NY*LVY+NZ*LVZ);
+      if DotP>0 then begin
+        SQLV:=LVX*LVX+LVY*LVY+LVZ*LVZ;
+        if (SQLV>0) and (SQLV<RangeSQ) then begin
+          DotP:=Round(DotP *64 / SQLV);
+          if dotp>0 then begin
+            Lightness.R := Lightness.R + R*DotP ;// div SQLV;
+            Lightness.G := Lightness.G + G*DotP ;// div SQLV;
+            Lightness.B := Lightness.B + B*DotP ;// div SQLV;
+            Lightness.Total:=Lightness.Total + DotP ;// div SQLV;
+          end;
+        end;
+      end;
+    end;}
+  end;
+  asm
+{   movzx        EAX, word ptr [Lightness+6]
+    movd         MM2, EAX
+    psrlw        MM2, 6
+    punpcklwd    MM2, MM2
+    punpckldq    MM2, MM2
+    pmullw       MM1, MM2
+
+    paddusw      MM1, qword ptr Lightness}
+//    psrlw        MM1, 6
+    pxor         MM0, MM0  
+    packuswb     MM1, MM0
+
+    mov          EDX,VBOffset
+    movd         dword ptr [EDX+12], MM1
+//    mov          dword ptr [EDX+12], $FFFFFFFF
+    emms
+    fild         NXI
+    fstp         dword ptr [EDX+0]                   //  VertexBuf^[ j*(XAcc+1) + i].X := CurX shr 8;
+    fild         NXI
+    fmul         TextureK
+    fstp         dword ptr [EDX+16]
+    fild         ResY
+    fstp         dword ptr [EDX+4]                   //  VertexBuf^[ j*(XAcc+1) + i].Y := ResY;
+    fild         NZI
+    fstp         dword ptr [EDX+8]                   //  VertexBuf^[ j*(XAcc+1) + i].Z := CurZ shr 8;
+    fild         NZI
+    fmul         TextureK
+    fstp         dword ptr [EDX+20]
+  end;
+
+{  CR:=(CR*Lightness.Total shr 6 + Lightness.R) shr 6;
+  CG:=(CG*Lightness.Total shr 6 + Lightness.G) shr 6;
+  CB:=(CB*Lightness.Total shr 6 + Lightness.B) shr 6;}
+
+{  CR:=(CR*Lightness.Total + Lightness.R) shr 9;
+  CG:=(CG*Lightness.Total + Lightness.G) shr 9;
+  CB:=(CB*Lightness.Total + Lightness.B) shr 9;}
+
+{  if CR>255 then CR:=255;
+  if CG>255 then CG:=255;
+  if CB>255 then CB:=255;}
+
+//  VertexBuf^[ j*(XAcc+1) + i].Y := ResY;
+//  VertexBuf^[ j*(XAcc+1) + i].DColor:=CR shl 16+CG shl 8+CB;
+//  VertexBuf^[ j*(XAcc+1) + i].U:=CurX div 256 / TileSize / TextureZoom;
+//  VertexBuf^[ j*(XAcc+1) + i].V:=CurZ div 256 / TileSize / TextureZoom;
+

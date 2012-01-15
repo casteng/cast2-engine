@@ -1,0 +1,204 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{4D2C960F-6BB8-421C-AFCD-CBE81E55DD83}</ProjectGuid>
+			<MainSource>c2ed.dpr</MainSource>
+			<Base>True</Base>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<Platform>Win32</Platform>
+			<AppType>Application</AppType>
+			<FrameworkType>VCL</FrameworkType>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<ProjectVersion>12.2</ProjectVersion>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+			<DCC_UsePackage>vcl;rtl;vclx;vclactnband;vclshlctrls;vclie;xmlrtl;inetdbbde;inet;inetdbxpress;dbrtl;vcldb;adortl;bdertl;vcldbx;VclSmp;PNG_D7;VirtualTreesD7</DCC_UsePackage>
+			<DCC_SymbolReferenceInfo>1</DCC_SymbolReferenceInfo>
+			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;WinTypes=Windows;WinProcs=Windows;$(DCC_UnitAlias)</DCC_UnitAlias>
+			<DCC_ExeOutput>bin</DCC_ExeOutput>
+			<DCC_UnitSearchPath>../../base;../../base/template;..;../dependencies/opengl;../dependencies/directx8;../../base/ACS;packages;cast;../../private/vcl;../dependencies/newton;../../base/fastmm;../dependencies/directx8/common;..\dependencies\imaging\Source;..\dependencies\imaging\Source\ZLib;..\dependencies\imaging\Source\JpegLib;..\dependencies\imaging\Extras\Extensions;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<DCC_K>false</DCC_K>
+			<DCC_N>true</DCC_N>
+			<DCC_S>false</DCC_S>
+			<DCC_DcuOutput>temp</DCC_DcuOutput>
+			<DCC_E>false</DCC_E>
+			<DCC_F>false</DCC_F>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_DebugDCUs>true</DCC_DebugDCUs>
+			<DCC_UnitSearchPath>../../JCL/source/windows;..\..\JCL\source\include;../..\JCL\source\common;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+			<DCC_Optimize>false</DCC_Optimize>
+			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="c2ed.dpr">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="LogForm.pas">
+				<Form>LogF</Form>
+			</DCCReference>
+			<DCCReference Include="mainform.pas">
+				<Form>MainF</Form>
+			</DCCReference>
+			<DCCReference Include="PropFrame.pas">
+				<Form>PropsFrame</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="ObjFrame.pas">
+				<Form>ItemsFrame</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="ItemClassForm.pas">
+				<Form>ItemClassF</Form>
+			</DCCReference>
+			<DCCReference Include="RenderFrame.pas">
+				<Form>RendererFrame</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="FImages.pas">
+				<Form>ImagesForm</Form>
+			</DCCReference>
+			<DCCReference Include="ResizeF.pas">
+				<Form>ResizeForm</Form>
+			</DCCReference>
+			<DCCReference Include="AtF.pas">
+				<Form>LoadAtForm</Form>
+			</DCCReference>
+			<DCCReference Include="FCFont.pas">
+				<Form>MkFontForm</Form>
+			</DCCReference>
+			<DCCReference Include="FCMGen.pas">
+				<Form>CMGForm</Form>
+			</DCCReference>
+			<DCCReference Include="FSMGen.pas">
+				<Form>SMGForm</Form>
+			</DCCReference>
+			<DCCReference Include="FUVGen.pas">
+				<Form>UVForm</Form>
+			</DCCReference>
+			<DCCReference Include="FCharMap.pas">
+				<Form>CharMapForm</Form>
+			</DCCReference>
+			<DCCReference Include="ResTools.pas">
+				<Form>FResTools</Form>
+			</DCCReference>
+			<DCCReference Include="FFormat.pas">
+				<Form>FormatForm</Form>
+			</DCCReference>
+			<DCCReference Include="FVFormat.pas">
+				<Form>VFormatForm</Form>
+			</DCCReference>
+			<DCCReference Include="FScale.pas">
+				<Form>ScaleForm</Form>
+			</DCCReference>
+			<DCCReference Include="MapEditForm.pas">
+				<Form>MapEditF</Form>
+			</DCCReference>
+			<DCCReference Include="ModelLoadForm.pas">
+				<Form>ModelLoadF</Form>
+			</DCCReference>
+			<DCCReference Include="FStats.pas">
+				<Form>StatF</Form>
+			</DCCReference>
+			<DCCReference Include="FTextEdit.pas">
+				<Form>TextEditForm</Form>
+			</DCCReference>
+			<DCCReference Include="FConfig.pas">
+				<Form>ConfigForm</Form>
+			</DCCReference>
+			<DCCReference Include="FAbout.pas">
+				<Form>AboutForm</Form>
+			</DCCReference>
+			<DCCReference Include="FPropEdit.pas">
+				<Form>PropEditF</Form>
+			</DCCReference>
+			<DCCReference Include="FNormMap.pas">
+				<Form>NormMapForm</Form>
+			</DCCReference>
+			<DCCReference Include="FImage.pas">
+				<Form>ImageForm</Form>
+			</DCCReference>
+			<DCCReference Include="FMaterial.pas">
+				<Form>FormNewMaterial</Form>
+			</DCCReference>
+			<DCCReference Include="FPEmitter.pas">
+				<Form>PEmitterForm</Form>
+			</DCCReference>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Source>
+						<Source Name="MainSource">c2ed.dpr</Source>
+					</Source>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1049</VersionInfo>
+						<VersionInfo Name="CodePage">1251</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+				</Delphi.Personality>
+				<Platforms>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+	</Project>

@@ -1,0 +1,481 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+      </Flags>
+      <MainUnit Value="0"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="2" Active="Default">
+      <Item1 Name="Default" Default="True"/>
+      <Item2 Name="debug">
+        <CompilerOptions>
+          <Version Value="9"/>
+          <Target>
+            <Filename Value="simple"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="../../base;../../base/generic;..;$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../../base;..//..base/generic;..;../dependencies/opengl"/>
+            <UnitOutputDirectory Value="bin/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <Style Value="1"/>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+              <CStyleOperator Value="False"/>
+              <IncludeAssertionCode Value="True"/>
+              <AllowLabel Value="False"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+            </Checks>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="True"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CompilerMessages>
+              <UseMsgFile Value="True"/>
+            </CompilerMessages>
+            <CustomOptions Value="-Fd"/>
+            <CompilerPath Value="$(CompPath)"/>
+          </Other>
+        </CompilerOptions>
+      </Item2>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication Use="True" PathPlusParams="/usr/bin/gnome-terminal -t 'Lazarus Run Output' -e &quot;$(LazarusDir)/tools/runwait.sh $(TargetCmdLine)&quot;"/>
+      </local>
+    </RunParams>
+    <Units Count="25">
+      <Unit0>
+        <Filename Value="Simple.dpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="simple"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="38"/>
+        <CursorPos X="3" Y="38"/>
+        <UsageCount Value="70"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="GDefines.inc"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="2" Y="1"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="../base/BaseTypes.pas"/>
+        <UnitName Value="BaseTypes"/>
+        <EditorIndex Value="11"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="347"/>
+        <CursorPos X="1" Y="369"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="../base/Basics.pas"/>
+        <UnitName Value="Basics"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1595"/>
+        <CursorPos X="42" Y="1639"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../base/OSUtils.pas"/>
+        <UnitName Value="OSUtils"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="15" Y="30"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <UnitName Value="xlib"/>
+        <EditorIndex Value="10"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1950"/>
+        <CursorPos X="12" Y="1985"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/x.pp"/>
+        <UnitName Value="x"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="8"/>
+        <CursorPos X="16" Y="30"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/rtl/inc/ctypes.pp"/>
+        <UnitName Value="ctypes"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="51"/>
+        <CursorPos X="3" Y="73"/>
+        <UsageCount Value="5"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../base/AppsInitGLUT.pas"/>
+        <UnitName Value="AppsInitGLUT"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="44"/>
+        <CursorPos X="1" Y="44"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../base/AppsInitWin.pas"/>
+        <UnitName Value="AppsInitWin"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="50"/>
+        <CursorPos X="60" Y="72"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="../cast2/C2Types.pas"/>
+        <UnitName Value="C2Types"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../cast2/C2OGLRender.pas"/>
+        <UnitName Value="C2OGLRender"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="11" Y="8"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../cast2/Cast2.pas"/>
+        <UnitName Value="Cast2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../cast2/C2Res.pas"/>
+        <UnitName Value="C2Res"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="../cast2/C2Render.pas"/>
+        <UnitName Value="C2Render"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1355"/>
+        <CursorPos X="28" Y="1377"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="../base/Timer.pas"/>
+        <UnitName Value="Timer"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="27" Y="16"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="../cast2/C2DebugTess.pas"/>
+        <UnitName Value="C2DebugTess"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="../base/ItemMsg.pas"/>
+        <UnitName Value="ItemMsg"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="10" Y="11"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="../cast2/CAST2.pas"/>
+        <UnitName Value="CAST2"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="36" Y="16"/>
+        <UsageCount Value="32"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="../misc/opengl/dglOpenGL.pas"/>
+        <UnitName Value="dglOpenGL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="18159"/>
+        <CursorPos X="73" Y="18174"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="../base/BaseCont.pas"/>
+        <UnitName Value="BaseCont"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="659"/>
+        <CursorPos X="6" Y="670"/>
+        <UsageCount Value="32"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="../base/Geometry.pas"/>
+        <UnitName Value="Geometry"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="../base/TextFile.pas"/>
+        <UnitName Value="TextFile"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="25"/>
+        <CursorPos X="2" Y="7"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/rtl/wince/messages.pp"/>
+        <UnitName Value="messages"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="5" Y="11"/>
+        <UsageCount Value="9"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/rtl/unix/sysutils.pp"/>
+        <UnitName Value="sysutils"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit24>
+    </Units>
+    <JumpHistory Count="25" HistoryIndex="24">
+      <Position1>
+        <Filename Value="../cast2/C2OGLRender.pas"/>
+        <Caret Line="19" Column="25" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="../base/BaseCont.pas"/>
+        <Caret Line="607" Column="30" TopLine="607"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../base/BaseCont.pas"/>
+        <Caret Line="644" Column="22" TopLine="622"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../base/TextFile.pas"/>
+        <Caret Line="267" Column="24" TopLine="230"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../base/TextFile.pas"/>
+        <Caret Line="177" Column="84" TopLine="169"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../cast2/C2OGLRender.pas"/>
+        <Caret Line="1545" Column="25" TopLine="1531"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../cast2/C2OGLRender.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../cast2/C2OGLRender.pas"/>
+        <Caret Line="1657" Column="12" TopLine="1622"/>
+      </Position8>
+      <Position9>
+        <Filename Value="Simple.dpr"/>
+        <Caret Line="106" Column="30" TopLine="93"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../base/OSUtils.pas"/>
+        <Caret Line="186" Column="29" TopLine="186"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../base/OSUtils.pas"/>
+        <Caret Line="590" Column="19" TopLine="569"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../base/OSUtils.pas"/>
+        <Caret Line="30" Column="11" TopLine="1"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../base/OSUtils.pas"/>
+        <Caret Line="624" Column="29" TopLine="624"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../base/OSUtils.pas"/>
+        <Caret Line="563" Column="3" TopLine="542"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../base/OSUtils.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../base/OSUtils.pas"/>
+        <Caret Line="563" Column="6" TopLine="563"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../base/OSUtils.pas"/>
+        <Caret Line="706" Column="9" TopLine="690"/>
+      </Position17>
+      <Position18>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <Caret Line="1366" Column="41" TopLine="1366"/>
+      </Position18>
+      <Position19>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position19>
+      <Position20>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <Caret Line="1113" Column="20" TopLine="1078"/>
+      </Position20>
+      <Position21>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <Caret Line="1308" Column="25" TopLine="1273"/>
+      </Position21>
+      <Position22>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <Caret Line="1349" Column="19" TopLine="1314"/>
+      </Position22>
+      <Position23>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <Caret Line="1630" Column="25" TopLine="1595"/>
+      </Position23>
+      <Position24>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <Caret Line="1799" Column="18" TopLine="1764"/>
+      </Position24>
+      <Position25>
+        <Filename Value="/usr/share/fpcsrc/2.4.4/packages/x11/src/xlib.pp"/>
+        <Caret Line="1983" Column="18" TopLine="1948"/>
+      </Position25>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="9"/>
+    <Target>
+      <Filename Value="simple"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="../base;../template;../cast2;$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../base;../template;../cast2;../misc/opengl"/>
+      <UnitOutputDirectory Value="/mnt/misc/my/output/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <Style Value="1"/>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+        <CStyleOperator Value="False"/>
+        <IncludeAssertionCode Value="True"/>
+        <AllowLabel Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <RangeChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
+      <VerifyObjMethodCallValidity Value="True"/>
+    </CodeGeneration>
+    <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
+      <CustomOptions Value="-Fd"/>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Watches Count="1">
+      <Item1>
+        <Expression Value="ParamStr(0)"/>
+      </Item1>
+    </Watches>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>
