@@ -32,13 +32,10 @@
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<DCC_UsePackage>vcl;rtl;vclx;vclactnband;vclshlctrls;vclie;xmlrtl;inetdbbde;inet;inetdbxpress;dbrtl;vcldb;adortl;bdertl;vcldbx;VclSmp;PNG_D7;VirtualTreesD7</DCC_UsePackage>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
-			<DCC_UNSAFE_CODE>true</DCC_UNSAFE_CODE>
-			<DCC_UNSAFE_TYPE>true</DCC_UNSAFE_TYPE>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;WinTypes=Windows;WinProcs=Windows;$(DCC_UnitAlias)</DCC_UnitAlias>
 			<DCC_BplOutput>bin</DCC_BplOutput>
 			<DCC_UnitSearchPath>../../base;../../base/template;..;../dependencies/opengl;../dependencies/directx8;../../base/ACS;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
 			<DCC_ExeOutput>bin</DCC_ExeOutput>
-			<DCC_UNSAFE_CAST>true</DCC_UNSAFE_CAST>
 			<DCC_N>true</DCC_N>
 			<DCC_K>false</DCC_K>
 			<DCC_DcpOutput>temp</DCC_DcpOutput>
