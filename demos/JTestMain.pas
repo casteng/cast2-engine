@@ -103,7 +103,9 @@ begin
 end;
 
 constructor TJTestDemo.Create;
-var HandleKeysProc: TInputDelegate;
+var
+  HandleKeysProc: TInputDelegate;
+  Item: TItem;
 begin
   Starter.Terminated := True;                                      // Terminate the application if an error occurs
   // Create engine core
@@ -155,7 +157,7 @@ begin
   end;
 
   // Initialize input subsystem
-  Core.Input := TOSController.Create(Starter.WindowHandle, {$IFDEF OBJFPCEnable}@{$ENDIF}Core.HandleMessage);
+  Core.Input := TOSController.Create(Starter.WindowHandle, Core.HandleMessage);
   Core.Input.BindCommand('ESC', TForceQuitMsg);                    // Bind exit to ESC key
   Core.Input.BindCommand('ALT+Q', TForceQuitMsg);                  // Bind exit to ALT+Q key combination
   // Bind movements keys to delegate supplying in custom data key index with set 8-th bit if key was pressed down.
@@ -194,6 +196,9 @@ begin
   Starter.Terminated := False;                                     // No errors
 
   Core.Timer.SetRecurringEvent(TimerDelay, HandleTimer, 0);
+
+  Item := SetupFromJSON(Item, '{Class: "TItem", Name: "JSONic", Child: {Class: "TItem", Name: "JSONic"}}', Core);
+  Core.Root.AddChild(Item);
 end;
 
 destructor TJTestDemo.Destroy;
@@ -313,6 +318,10 @@ end;
 procedure TJTestDemo.Act3(EventData: Integer; CustomData: Smallint);
 begin
   Q('Plane?').Rotate(GetQuaternion(10/180*pi, Vec3s(0, 1, 0))).ForEach(PrintName, nil);
+
+  Writeln('JSONic cnt: ', Q('JSONic').Count);
+
+  Q('JSON*').First().Props('{Name: "Test"}');
 end;
 
 end.

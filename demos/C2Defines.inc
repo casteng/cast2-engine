@@ -1,16 +1,15 @@
-{$DEFINE OPENGL}
+{.$DEFINE OPENGL}
 {$IFDEF OPENGL}
   {.$DEFINE OGLERRORCHECK}
 {$ELSE}
   {$DEFINE DIRECT3D8}            // Direct X 8 renderer
 {$ENDIF}
 {$IFDEF DIRECT3D8}
-  {$DEFINE DX8ERRORSTR}        // DirectX error details. dxerr81ab.dll needed
-  {$DEFINE USED3DX8}           // No D3DX8*.dll will be needed but only precompiled shaders can be used as shader compilation routines resists in D3DX
+  {.$DEFINE DX8ERRORSTR}        // DirectX error details. dxerr81ab.dll needed
+  {.$DEFINE USED3DX8}           // No D3DX8*.dll will be needed but only precompiled shaders can be used as shader compilation routines resists in D3DX
 {$ENDIF}
 {$DEFINE AUDIO}
 {$DEFINE MUSIC}
-{.$DEFINE USE_DI}              // Use DirectInput
 {.$DEFINE NETSUPPORT}
 {.$DEFINE WANSUPPORT}          // Internet play support
 {.$DEFINE SCRIPTING}           // Scripting support
