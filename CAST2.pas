@@ -758,7 +758,7 @@ begin
   Properties.Add(Name,            vtString, [poReadOnly], Format('(%3.3F, (%3.3F, %3.3F, %3.3F))', [Angle, Quat[1], Quat[2], Quat[3]]), '');
 end;
 
-function SetVector3sProperty(Properties: Props.TProperties; const Name: string; var Res: TVector3s): Boolean; overload;
+function SetVector3sProperty(Properties: Props.TProperties; const Name: string; var Res: TVector3s): Boolean;
 var NewVec: TVector3s;
 begin
   NewVec := Res;
@@ -770,7 +770,7 @@ begin
   if Result then Res := NewVec;
 end;
 
-function SetVector4sProperty(Properties: Props.TProperties; const Name: string; var Res: TVector4s): Boolean; overload;
+function SetVector4sProperty(Properties: Props.TProperties; const Name: string; var Res: TVector4s): Boolean;
 var NewVec: TVector3s; W: Single;
 begin
   NewVec := Res.XYZ;

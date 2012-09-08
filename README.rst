@@ -3,11 +3,8 @@ CAST II Engine
 
 CAST II is a free, open source game engine (not only a graphics one) for Delphi and Free Pascal
 
-Required source from: https://github.com/casteng/base.git
+Required source from: Base_.
 
-<<<<<<< Updated upstream
-http://www.casteng.com
-=======
 .. _Base: http://github.com/casteng/base.git
 
 The key points of the engine:
@@ -20,4 +17,3 @@ The key points of the engine:
 Homepage_
 
 .. _Homepage: http://www.casteng.com
->>>>>>> Stashed changes
